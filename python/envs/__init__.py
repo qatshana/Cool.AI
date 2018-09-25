@@ -3,8 +3,9 @@ from gym.envs.registration import registry, register, make, spec
 # ----------------------------------------
 
 register(
-   	id='ControlHVAC-v0',
-   	entry_point='gym.envs.ControlRL:ControlHVAC',
+   	id='AllVar-v0',
+    entry_point='gym.envs.ControlRL:AllVar',
+
 )
 
 register(
