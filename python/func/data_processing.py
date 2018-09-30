@@ -31,7 +31,7 @@ def data_process(cfg, plot_data,run_regression,save_regression):
    3) Running a regression to make a model of the simulation environment
    4) Also, there two functions to plot data in 2D and 3D
     """
-    data_path = os.path.join(cfg['CWD_PATH'],cfg['repo_path'],cfg['data_file_path'])
+    data_path = os.path.join(cfg['data_file_path'])
     df = load_data(data_path)
     df = clean_data(cfg,df)
     if run_regression ==True:
@@ -65,23 +65,8 @@ def clean_data(cfg,df):
     """
     This function cleans data and impute some missing load data ITE
     """
-    df.columns = cfg['all_var'] #change column names to what's in config.yaml  
-    df.drop(['Date/Time'],axis=1,inplace=True)
-     #df[cfg['change_scale']] = df[cfg['change_scale']] *1000 #scale these for visualization
-    ITUZ1=df['ITUZ1']
-    ITUZ2=df['ITUZ2']
-    ITUZZ1=ITUZ1.fillna(0)
-    ITUZZ2=ITUZ2.fillna(0)
-    ITUZZ1[0:5]=ITUZZ1[5]
-    ITUZZ2[0:5]=ITUZZ2[5]
-    ITUZZ1[6]=ITUZZ1[11]
-    ITUZZ2[6]=ITUZZ2[11]
-    for i in range(1,4,1):
-        for x in range(1+i*6, 11+6*i, 1):
-            ITUZZ1[x]=ITUZZ1[6*(i+1)-1]
-            ITUZZ2[x]=ITUZZ2[6*(i+1)-1]
-    df['ITUZ1']=ITUZZ1
-    df['ITUZ2']=ITUZZ2    
+ 
+    df.drop(['Date/Time'],axis=1,inplace=True)    
     return df
 
 def norm_data(cfg,df):
@@ -146,7 +131,9 @@ def reg_runner(cfg,df,save_regression):
 
     """
     # define 9 inputs here [AQ]: move to config file
-    df_inputs=df[['TDXZ1','TDECZ1', 'TIECZ1', 'TDXZ2', 'TDECZ2', 'TIECZ2','TOUT','ITUZ1','ITUZ2']]
+    #df_inputs=df[['TDXZ1','TDECZ1', 'TIECZ1', 'TDXZ2', 'TDECZ2', 'TIECZ2','TOUT','ITUZ1','ITUZ2']]
+    df_inputs=df[['TDXZ1','TDECZ1','TIECZ1','TOUT','ITUZ1']]
+
     for var in cfg['out_var']:
         #Split into train and test set
         X_train, X_test, y_train, y_test = train_test_split(df_inputs, 
@@ -177,7 +164,5 @@ def reg_runner(cfg,df,save_regression):
        
         if save_regression == True:
             fname = (var+".p")
-            pickle_path = os.path.join(cfg['CWD_PATH'],cfg['repo_path'],cfg['result_path'],cfg['pickle_path'],fname)
-            # Save the 3 function variables you need to-recreate this model,
-            # and the min & max to set this in the environment:
+            pickle_path = os.path.join('results/pickles/',fname)
             pickle.dump([coef,powers,intercept, df.min(),df.max()],open(pickle_path,'wb'))

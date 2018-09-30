@@ -34,7 +34,7 @@ if __name__ == "__main__":
     # toggled on or overwritten when training the model. The identical regression
     # coefficients have to be used when rolling out as training.
     parser.add_argument('-sreg','--save_reg', dest = 'save_regression', type = bool,
-                        default = True, help = 'True to save the regression')
+                        default = False, help = 'True to save the regression')
     parser.add_argument('-rRL','--run_RL', dest = 'run_RL', type = bool,
                         default = False, help = 'True to run RL model')
     parser.add_argument('-pRL','--plot_RL', dest = 'plot_RL', type = bool,

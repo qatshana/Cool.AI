@@ -1,35 +1,44 @@
 #paths:
-repo_path: Rocket_RL/
+repo_path: HVAC_Control_DRL/
 #data
-#data_file_path: data/DC_data.csv #most of the data
-data_file_path: data/2ZoneDataCenterHVACTest.csv
+data_file_path: data/1ZoneDataCenterHVAC.csv
 result_path: results/
 #both of the below are in the results folder
-pickle_path: pickles/
+pickle_path_result: results/pickles/
+
 data_result_path: data/figures/
 labels_path: video_labels/
 ray_results_path: ray_results/RocketRL/
+
+random_output: False
+print_output: True
+TOUT1_target: 22   # Temp target for Zone 1
+
+#Model variables
+no_inputs: 5
+no_outputs: 2
 
 #model
 #both of the below are in the results folder
 pickle_path: pickles/
 model_result_path: model/figures/
 
-#Model variables
-no_inputs: 9
-no_outputs: 3
+
+# DDPG settings
+training_steps: 100000
+test_episodes: 5
+
 
 # Regression variables: 
 #reg_model: ridge #either linreg or ridge for L2 regularization
-#reg_model: ridge
 reg_model: linreg
 alpha: 0.5 #alpha for Ridge
 norm_mode: max #either full or max: full is 0-1, max scales to the max
 
 
 # Min and max degree of polynomials features to consider
-degree_min: 1
-degree_max: 1
+degree_min: 2
+degree_max: 2
 # Test/train split
 test_set_fraction: .2
 
@@ -38,16 +47,11 @@ test_set_fraction: .2
 # Environment variables: 
 scale_var: 10.0 # scales all the normalized input/output values
 
-# The fraction within range of the target within which
-# we say the agent has reached the goal.
-# For each of the 3 outputs. 
-#thresh1: .04 #within 4% of the target
-#thresh2: .04
-#thresh3: .04
+# The fraction within range of the target within which we say the agent has reached the goal.
 
-thresh1: .01 #within 4% of the target
-thresh2: .01
-thresh3: .01
+thresh1: .005 #within 4% of the target
+thresh2: .005
+thresh3: .005
 
 
 # Reward upon reaching the goal
@@ -58,37 +62,28 @@ reward: 1000
 MSE_scale: 10 #multiply the MSE by this to get negative reward
 
 # Action range: can go up or down this % of the range
-action_range: .5
+action_range: 2
+max_in_change: 2 # maximum input change
+rate_change: .05
+max_PUE: 3
+min_PUE: 1
+max_TZ: 35
+min_TZ: 8
+min_Tin: 5
+max_Tin: 30
+min_ITU_scaled: 1 
+max_ITU_scaled: 1.5
+
+
 
 # Noise is really an add-on to the regression model: it adds some random noise to
 # the deterministic regression output to more closely mimic the simulation space
 # Noise is a fraction of the threshold for accuracy: a fraction of thresh1
 noise: .05
 
-# This removes the top & bottom fraction of the input space.
-# The range is 0-1
-minmaxbuffer: 0
 
 # Experiment variables:
-  #Stopping conditions:
-time_total_s: 600000
-timesteps_total: 100000000
-episode_reward_mean: 10000
 
-checkpoint-freq: 1
-
-num_workers: 3 # 1 fewer than available CPU!
-
-#AGENT
-agent: 'PPO'
-
-# PPO agent variables; note, these may be different if you change the agent:
-gamma: 0.995 # Discount factor of the MDP
-horizon: 1000 # Number of steps after which the rollout gets cut
-num_sgd_iter: 30 #Number of stochastic gradient descent iterations in each outer loop
-sgd_stepsize: 0.00005
-timesteps_per_batch: 4000
-min_steps_per_task: 200
 
 # Rendering settings that may need to be tweaked per model:
 buff_axis: 0.2 #buffer for top & bottom of screen 
@@ -126,29 +121,32 @@ change_scale:
   - ITUZ1
   - ITUZ2
 
-#naming (4 input file)
-in_var:
-#  - TDXZ1
-#  - TDECZ1
-#  - TDXZ2
-#  - TDECZ2
-# 
-#naming (6 input file)
-in_var:
+#naming (5 input file)
+
+#in_var:
   - TDXZ1
   - TDECZ1
   - TIECZ1
-  - TDXZ2
-  - TDECZ2
-  - TIECZ1
   - TOUT
   - ITUZ1
-  - ITUZ2 
+
+# 
+#naming (6 input file)
+in_var:
+#  - TDXZ1
+#  - TDECZ1
+#  - TIECZ1
+#  - TDXZ2
+#  - TDECZ2
+#  - TIECZ1
+#  - TOUT
+#  - ITUZ1
+#  - ITUZ2 
 
 out_var:
   - PUE
   - TZ1
-  - TZ2
+#  - TZ2
 
 all_var:
   - Date/Time
@@ -167,25 +165,27 @@ all_var:
 
 
 #corresponding names, for figure labeling: (4 input parameter)
-#in_var_name:
-#  - TDXZ1
-#  - TDECZ1
-#  - TDXZ2
-#  - TDECZ2
 
-#corresponding names, for figure labeling: (4 input parameter)
-in_var_name:
+#in_var_name:
   - TDXZ1
   - TDECZ1
   - TIECZ1
-  - TDXZ2
-  - TDECZ2
-  - TIECZ2
   - TOUT
   - ITUZ1
-  - ITUZ2
+
+#corresponding names, for figure labeling: (4 input parameter)
+in_var_name:
+#  - TDXZ1
+#  - TDECZ1
+#  - TIECZ1
+#  - TDXZ2
+#  - TDECZ2
+#  - TIECZ2
+#  - TOUT
+#  - ITUZ1
+#  - ITUZ2
 
 out_var_name:
   - PUE
   - TZ1
-  - TZ2
+#  - TZ2
