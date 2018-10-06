@@ -1,5 +1,6 @@
 
-# HVAC Control Using Deep Reinforcement Learning
+# COOL.AI
+## Cooling System Control Using Deep Reinforcement Learning
 
 
 ## Abstract
