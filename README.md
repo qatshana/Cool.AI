@@ -26,12 +26,31 @@ pip install -r requirement.txt
 I used EnergyPlus to simulate a 2 Zone Data Center with two cooling systems (see picture below) and 6 different inputs (3 for each cooling system)
 Output data from simulation is saved in the data folder
 
+![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/OutsideTemp.png)
+![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/ITU_Load.png)
 
-##Inference
-Pre-trained weights can be downloaded from DropBox. Test set images can also be found in the datasets folder.
+## Training:
 
-## Post-processing
-The traced roof lines would be shown on the original input image
+Training can be performed on new data set by executing the following command
+
+python python/main_DDPG -rRL True
+
+Currently, number of samples for training data is set at 30,000. This parameter is training_steps and is set in config/config.yml 
+
+
+## Inference
+DDPG system weights are saved in results/weights. User can run two types of tests: Linear and DDPG
+
+1) Linear test:
+python python/main_MVP.py
+
+2) DDP test:
+python python/main_DDPG.py
+
+## Performance & Results
+
+![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/ddpg_overshoot.png)
+![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/linear_fluctuate_1.png)
 
 ## Packaging
 Install as a single package
