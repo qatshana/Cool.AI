@@ -33,7 +33,7 @@ I used EnergyPlus to generate the data for a single zone data center in San Fran
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/OutsideTemp.png)
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/ITU_Load.png)
 
-## Training:
+## Training
 
 Training can be performed on new data set by executing the following command
 
