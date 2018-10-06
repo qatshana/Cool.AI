@@ -4,7 +4,7 @@ from gym.utils import seeding
 import numpy as np
 from os import path
 import yaml
-
+import pandas as pd
 
 
 #from gym.spaces import Box, Tuple
@@ -34,8 +34,7 @@ class AllVar(gym.Env):
         
         self.max_in_change=cfg['max_in_change']  # for 6 setting this to .1 will achieve .5 cost (high)
         self.dt=cfg['rate_change']
-        self.viewer = None 
-        
+        self.viewer = None         
         self.max_PUE=cfg['max_PUE']
         self.min_PUE=cfg['min_PUE']
         self.max_TZ=cfg['max_TZ']
@@ -72,6 +71,11 @@ class AllVar(gym.Env):
         self.action_range = cfg['action_range']
         #Action space is the up & down range for the 5 actions 
         self.action_space = spaces.Box(-self.action_range, self.action_range, shape=(self.num_ins,), dtype=np.float32)  # set to +/- 5
+
+        # initialize logging paramteres
+        self.episodes=0
+        self.data=''
+
         self.seed()
 
     def get_funcs(self,var):
@@ -85,22 +89,6 @@ class AllVar(gym.Env):
         out = {'coef': coef, 'powers':powers,'intercept':intercept}
         return out, mins, maxes
 
-    def temp_func2(self,var):
-        """
-        This function is the observer in the RL model.
-        The coef, powers, and intercept are used to create a function of the outputs given the inputs.
-        There is an option to add noise, to approximate thermal noise or other fluctuations in the environment.
-        """
-        y = var['intercept']
-        for p,c in zip(var['powers'],var['coef']):
-            # Exp the inputs to the power for that coef
-            #to plug them into the equation, un-scale them:
-            a = self.ins**p
-            y += c* np.prod(a)
-
-        #to fit this into the environment, re-scale:
-        y = y #* self.scale_var
-        return y
 
     def temp_func(self,var):
         """
@@ -131,15 +119,12 @@ class AllVar(gym.Env):
         TOUT1_target=self.TOUT1_target
         u = np.clip(u, -self.max_in_change, self.max_in_change)
         self.last_u = u # for rendering      
-
-        #calculate the output
-        #TOUTZ1 = TOUTZ1 + u[0]*dt+3*dt*u[1]-4*dt*u[2]+5*dt*u[3]
-        #PUE= PUE-u[0]*dt+1.2*dt*u[1]-2*dt*u[2]+1*dt*u[3]
                 
         # Increase or decrease the 5 input values
         self.ins = self.ins+ u
         self.ins = np.clip(self.ins,self.min_Tin, self.max_Tin)
 
+        #calculate the output
         TOUTZ1 = self.temp_func(var=self.TZ1)
         PUE = self.temp_func(var=self.PUE)
 
@@ -147,28 +132,41 @@ class AllVar(gym.Env):
         MSE1 = (self.TOUT1_target-TOUTZ1)**2
 
         # get cost function
-        costs = (self.TOUT1_target-TOUTZ1)**2 + .001*(u[0]**2)
+        costs = (self.TOUT1_target-TOUTZ1)**2
         TOUTZ1 = np.clip(TOUTZ1,self.min_TZ, self.max_TZ)       
                 
-        MSE1_scaled = MSE1/(self.TOUT1_target)**2 # scale by target temp
-            
-        #done = ((MSE1_scaled <= self.MSE_thresh1) & (MSE2_scaled <= self.MSE_thresh2) & (MSE3_scaled <= self.MSE_thresh3))
-       
+        MSE1_scaled = MSE1/(self.TOUT1_target)**2 # scale by target temp                   
         done = ((MSE1_scaled <= self.MSE_thresh1) )
         done = bool(done)
 
-        TOUTZ2 = 0        
-        
+        TOUTZ2 = 0              
 
         self.state = np.array([TOUTZ1, TOUTZ2, PUE])
-        if cfg['print_output']==True:
-            #print(self.ins)
-            print ("  ",TOUTZ1,self.TOUT1_target,done,self.steps)
+        if cfg['log_output']==True:
+            if cfg['print_output_single']==True:
+                print ("  ",TOUTZ1,self.TOUT1_target)
+            self.TOUT_data.append(TOUTZ1)
+            self.Step_data.append(self.steps)
+        if done==True:
+            txt=str(self.TOUT_data)+","
+            self.data+=txt
+            if cfg['print_output_all']==True:
+                print(self.data)
+            if cfg['save_output']==True:
+                output_file=cfg['output_file']
+                with open(output_file,'a') as file:
+                    file.write(self.data) 
+                            
         return self._get_obs(), -costs, done, {}
 
     def reset(self):
-
+        # reset logging parameters
+        self.TOUT_data=[]
+        self.Step_data=[]
+        self.episodes+=1
         self.steps = 0
+
+        # reset input and output paramaters
         self.ins = random.uniform(self.min_Tin*np.ones([1,no_inputs]),self.max_Tin*np.ones([1,no_inputs]))
         low = np.array([self.min_TZ, self.min_TZ,1])
         high = np.array([self.max_TZ, self.max_TZ,2])
@@ -184,9 +182,7 @@ class AllVar(gym.Env):
         TOUTZ1, TOUTZ2,PUE = self.state
         return np.array([TOUTZ1, TOUTZ2, PUE])
 
-    def render(self, mode='human'):
-    
-
+    def render(self, mode='human'):    
         if self.viewer is None:
             from gym.envs.classic_control import rendering
             self.viewer = rendering.Viewer(500,500)

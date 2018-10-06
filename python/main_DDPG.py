@@ -9,7 +9,10 @@ from rl.agents import DDPGAgent
 from rl.memory import SequentialMemory
 from rl.random import OrnsteinUhlenbeckProcess
 
+
+# Import a few other funcs for the main script
 import argparse, os, yaml
+
 
 def build_actor_model(num_action, observation_shape):
     action_input = Input(shape=(1,)+observation_shape)
@@ -64,24 +67,26 @@ def test(env,ENV_NAME,num_episodes):
 	agent.test(env, nb_episodes=num_episodes, visualize=False, nb_max_episode_steps=200)
 
 if __name__ == "__main__":
-    ENV_NAME = 'AllVar-v0'
-    env = gym.make(ENV_NAME)
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-rRL','--run_RL', dest = 'run_RL', type = bool,
+	ENV_NAME = 'AllVar-v0'
+	#ENV_NAME = 'Pendulum-v0'	
+	env = gym.make(ENV_NAME)
+
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-rRL','--run_RL', dest = 'run_RL', type = bool,
                         default = False, help = 'True to run RL model')
-    parser.add_argument('-tRL','--test_RL', dest = 'test_RL', type = bool,
+	parser.add_argument('-tRL','--test_RL', dest = 'test_RL', type = bool,
                         default = True, help = 'True to plot RL results')
-    parser.add_argument('-cfg','--config', dest = 'config_dir', type = str,
+	parser.add_argument('-cfg','--config', dest = 'config_dir', type = str,
                         default = 'config/config.yml', help = 'where the config file is located')
-    args = parser.parse_args()
-    with open(args.config_dir, 'r') as ymlfile:
-        cfg = yaml.load(ymlfile)
-    if args.run_RL == True:
-        training_steps=cfg['training_steps']
-        train(env,ENV_NAME,training_steps)
-    if args.test_RL == True:
-        num_episodes=cfg['test_episodes']
-        test(env,ENV_NAME,num_episodes)
+	args = parser.parse_args()
+	with open(args.config_dir, 'r') as ymlfile:
+		cfg = yaml.load(ymlfile)
+	if args.run_RL == True:
+		training_steps=cfg['training_steps']
+		train(env,ENV_NAME,training_steps)
+	if args.test_RL == True:
+		num_episodes=cfg['test_episodes']
+		test(env,ENV_NAME,num_episodes)
         
 
 

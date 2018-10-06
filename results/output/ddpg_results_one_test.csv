@@ -1,0 +1,11 @@
+[33mWARN: gym.spaces.Box autodetected dtype as <class 'numpy.float32'>. Please provide explicit dtype.[0m
+Testing for 1 episodes ...
+   35.0 22
+   35.0 22
+   35.0 22
+   35.0 22
+   32.00475399004152 22
+   24.58004008452397 22
+   22.217498724770582 22
+[35.0, 35.0, 35.0, 35.0, 32.00475399004152, 24.58004008452397, 22.217498724770582],
+Episode 1: reward: -4440.659, steps: 7
