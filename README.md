@@ -5,6 +5,8 @@
 
 ## Abstract
 
+
+
 Buildings consume 30% of total energy worldwide. 40% of this enery is consumed by cooling 
 and heating systems.Facility managers use Energy Management Systems (EMS) to control energy cost 
 
@@ -15,7 +17,9 @@ These systems xhibit a suboptimal performance (i.e optimum energy does not often
 
 Our approach is to use deep reinforcement learning to control cooling system. This approach does not assume any specific model for the system. Cooling control policy is learned and derived from data. An Agent, via trial-and-error, can make optimal actions even for very complex environments. This system can adapt to changes in environment (inside and outside the facility's/building
 
-![alt text](https://github.com/qatshana/HVAC_Control_DRL//blob/master/images/DRL-Cooling-Model.png)
+In this project, I present an end-to-end process to design, train and deploy deep reinforcement learning system 
+
+![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/End-to-End-System.png)
 
 ##Installation
 The file, requirement.txt, contains the python package dependencies for this project. Installation can be performed via
