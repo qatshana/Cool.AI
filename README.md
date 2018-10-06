@@ -21,14 +21,14 @@ In this project, I present an end-to-end process to design, train and deploy dee
 
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/End-to-End-System.png)
 
-##Installation
+## Installation
+
 The file, requirement.txt, contains the python package dependencies for this project. Installation can be performed via
 
 pip install -r requirement.txt
 
 ## Input Data
-I used EnergyPlus to simulate a 2 Zone Data Center with two cooling systems (see picture below) and 6 different inputs (3 for each cooling system)
-Output data from simulation is saved in the data folder
+I used EnergyPlus to generate the data for a single zone data center in San Francisco with one cooling system and 3 setpoint for control. Below are the charts for distribution of outside temp and data center server load
 
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/OutsideTemp.png)
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/ITU_Load.png)
