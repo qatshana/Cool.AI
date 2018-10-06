@@ -14,7 +14,7 @@ random_output: False
 
 # simulation data control paramters
 log_output: True  # activate logging results. Disable to speed up training process 
-print_output_single: True # print out every single measurement even if not done  
+print_output_single: False # print out every single measurement even if not done  
 print_output_all: False   # print out all output (only when episode is done)    
 save_output: False  # save individual measurements to output file
 output_file: results/output/outputTemp.txt # output file for chanes in output temp for all episodes (save only )
