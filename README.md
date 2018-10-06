@@ -1,5 +1,6 @@
 
-# HVAC Control Using Deep Reinforcement Learning
+# COOL.AI
+# Cooling System Control Using Deep Reinforcement Learning
 
 
 ## Abstract
@@ -24,6 +25,9 @@ pip install -r requirement.txt
 I used EnergyPlus to simulate a 1 Zone Data Center in San Fransico with one cooling systems (see picture below) and 3 different inputs 
 Output data from simulation is saved in the data folder
 
+Below, a sample of output data from EnergyPlus simulation
+
+![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/DRL-Cooling-Model.png)
 
 ## Inference
 
