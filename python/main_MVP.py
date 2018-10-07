@@ -16,17 +16,13 @@ ENV_NAME = 'AllVar-v0'
 
 env = gym.make(ENV_NAME)
 
-target_temp=22
-
 oberservation=env.reset()
 
 # get action for the current state and go one step in environment
-
 action=np.array([.5,.5,.5,.5,.5])
 next_state, reward, done, info = env.step(action)
-
 Tout=next_state[0]
-alpha=-1.0
+
 data=[]
 
 if __name__ == "__main__":
@@ -36,6 +32,8 @@ if __name__ == "__main__":
 		cfg = yaml.load(ymlfile)
 
 	num_episodes=cfg['test_episodes']
+	target_temp=cfg['TOUT1_target']
+	alpha=cfg['rate_change']
 	scores, episodes = [], []
 	Tout=[]
 	for e in range(num_episodes):
@@ -47,7 +45,6 @@ if __name__ == "__main__":
 			adjust=(target_temp-next_state[0])*alpha
 			action=np.array([adjust,adjust,0,0,0])
 			step+=1
-			#print(action)
 			next_state, reward, done, info = env.step(action)
 			Tout.append(next_state[0])
 			reward = reward if not done or score == 499 else -100
@@ -56,8 +53,7 @@ if __name__ == "__main__":
 			if done:
 				score = score if score == 500 else score + 100
 				scores.append(score)
-				episodes.append(e)        
-				#print(step)                        
+				episodes.append(e)                               
 				print("episode:", e, "  score:", score, "  steps:", step)
 				if np.mean(scores[-min(10, len(scores)):]) > 490:
 					sys.exit()

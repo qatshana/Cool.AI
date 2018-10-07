@@ -43,7 +43,6 @@ def build_critic_model(num_action, observation_shape):
 def build_agent(num_action, observation_shape):
     actor=build_actor_model(num_action, observation_shape)
     critic, critic_action_input = build_critic_model(num_action, observation_shape)
-    #print(critic.summary())
     memory = SequentialMemory(limit=100000, window_length=1)
     random_process = OrnsteinUhlenbeckProcess(size=num_action, theta=.15, mu=0., sigma=.3)
     agent = DDPGAgent(nb_actions=num_action, actor=actor, critic=critic, critic_action_input=critic_action_input,
@@ -67,8 +66,7 @@ def test(env,ENV_NAME,num_episodes):
 	agent.test(env, nb_episodes=num_episodes, visualize=False, nb_max_episode_steps=200)
 
 if __name__ == "__main__":
-	ENV_NAME = 'AllVar-v0'
-	#ENV_NAME = 'Pendulum-v0'	
+	ENV_NAME = 'AllVar-v0'	
 	env = gym.make(ENV_NAME)
 
 	parser = argparse.ArgumentParser()

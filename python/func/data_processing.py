@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 """
 Created on Spet 24, 2018
 Code imports simulated data, performs data cleaning/imputation and uses polynomial regression 
@@ -63,7 +60,7 @@ def load_data(data_path):
 
 def clean_data(cfg,df):
     """
-    This function cleans data and impute some missing load data ITE
+    This function cleans data and impute some missing load data ITU
     """
  
     df.drop(['Date/Time'],axis=1,inplace=True)    
@@ -130,8 +127,7 @@ def reg_runner(cfg,df,save_regression):
     pickle format, which is accessed by the RL environment as the interpreter.
 
     """
-    # define 9 inputs here [AQ]: move to config file
-    #df_inputs=df[['TDXZ1','TDECZ1', 'TIECZ1', 'TDXZ2', 'TDECZ2', 'TIECZ2','TOUT','ITUZ1','ITUZ2']]
+
     df_inputs=df[['TDXZ1','TDECZ1','TIECZ1','TOUT','ITUZ1']]
 
     for var in cfg['out_var']:

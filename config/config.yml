@@ -1,5 +1,3 @@
-#path to repo
-#repo_path: HVAC_Control_DRL/
 
 #data file path
 data_file_path: data/1ZoneDataCenterHVAC.csv
@@ -57,14 +55,8 @@ scale_var: 10.0 # scales all the normalized input/output values
 
 # The fraction within range of the target within which we say the agent has reached the goal.
 
-thresh1: .003 #within 4% of the target
-thresh2: .003
-thresh3: .003
+thresh1: .003 # MSE threshold, +/- .5 deg at 22 C
 
-
-# Reward upon reaching the goal
-# This is multiplied by scale_var
-reward: 1000
 
 # Scaling variable for the MSE:
 MSE_scale: 10 #multiply the MSE by this to get negative reward
@@ -72,7 +64,7 @@ MSE_scale: 10 #multiply the MSE by this to get negative reward
 # Action range: can go up or down this % of the range
 action_range: 2
 max_in_change: 2 # maximum input change
-rate_change: .05 # MVP model
+rate_change: -1.0 # MVP model
 max_PUE: 3
 min_PUE: 1
 max_TZ: 35
@@ -88,7 +80,7 @@ max_ITU_scaled: 1.5
 # the deterministic regression output to more closely mimic the simulation space
 # Noise is a fraction of the threshold for accuracy: a fraction of thresh1
 noise: .05
-
+ 
 
 # Experiment variables:
 
@@ -119,8 +111,6 @@ zvar: 0
 
 fs: 14 #fontsize for x & y labels
 
-#Data variables
-
 
 #data management variables: 
 
@@ -138,18 +128,6 @@ in_var:
   - TOUT
   - ITUZ1
 
-# 
-#naming (6 input file)
-in_var:
-#  - TDXZ1
-#  - TDECZ1
-#  - TIECZ1
-#  - TDXZ2
-#  - TDECZ2
-#  - TIECZ1
-#  - TOUT
-#  - ITUZ1
-#  - ITUZ2 
 
 out_var:
   - PUE
@@ -171,7 +149,7 @@ all_var:
   - TIECZ2
 
 
-#corresponding names, for figure labeling: (4 input parameter)
+#corresponding names, for figure labeling: (5 input parameter)
 
 in_var_name:
   - TDXZ1
@@ -179,18 +157,6 @@ in_var_name:
   - TIECZ1
   - TOUT
   - ITUZ1
-
-#corresponding names, for figure labeling: (4 input parameter)
-#in_var_name:
-#  - TDXZ1
-#  - TDECZ1
-#  - TIECZ1
-#  - TDXZ2
-#  - TDECZ2
-#  - TIECZ2
-#  - TOUT
-#  - ITUZ1
-#  - ITUZ2
 
 out_var_name:
   - PUE
