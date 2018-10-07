@@ -22,6 +22,9 @@ if __name__ == "__main__":
                         default = True, help = 'True to run the regression')
     parser.add_argument('-sreg','--save_reg', dest = 'save_regression', type = bool,
                         default = True, help = 'True to save the regression')
+    parser.add_argument('-cfg','--config', dest = 'config_dir', type = str,
+                        default = 'config/config.yml', help = 'where the config file is located')
+
     parser.add_argument('-plot','--plot_data', dest = 'plot_data', type = int,
                         default = False, help = 'True to plotsimulation data')
     

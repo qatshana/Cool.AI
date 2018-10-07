@@ -56,7 +56,7 @@ def train(env,ENV_NAME,training_steps):
 	agent.compile(Adam(lr=.001, clipnorm=1.), metrics=['mae'])
 	agent.fit(env, nb_steps=training_steps, visualize=False, verbose=1, nb_max_episode_steps=200)
 	agent.save_weights('results/weights/ddpg_{}_weights.h5f'.format(ENV_NAME), overwrite=False)
-	agent.test(env, nb_episodes=1, visualize=False, nb_max_episode_steps=500)
+	agent.test(env, nb_episodes=1, visualize=False, nb_max_episode_steps=200)
 
 def test(env,ENV_NAME,num_episodes):
 	nb_actions = env.action_space.shape[0]
