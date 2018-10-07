@@ -91,34 +91,35 @@ class AllVar(gym.Env):
 
 
     def step(self, u):
-        TOUTZ1, TOUTZ2, PUE = self.state #
+        TOUTZ1, TOUTZ2, PUE = self.state 
         self.steps += 1    
-    
-        TOUT1_target=self.TOUT1_target
         u = np.clip(u, -self.max_in_change, self.max_in_change)
         self.last_u = u # for rendering      
                 
         # Increase or decrease the 5 input values
-        self.ins = self.ins+ u
+        self.ins = self.ins + u
         self.ins = np.clip(self.ins,self.min_Tin, self.max_Tin)
 
         #calculate the output
         TOUTZ1 = self.temp_func(var=self.TZ1)
         PUE = self.temp_func(var=self.PUE)
+        TOUTZ2 = 0 # not used, only one zone for now
 
         # get MSE
         MSE1 = (self.TOUT1_target-TOUTZ1)**2
 
-        # get cost function
-        costs = (self.TOUT1_target-TOUTZ1)**2
+        # get cost function: sum of MSE's
+        costs = MSE1
         TOUTZ1 = np.clip(TOUTZ1,self.min_TZ, self.max_TZ)       
-                
-        MSE1_scaled = MSE1/(self.TOUT1_target)**2 # scale by target temp                   
+        
+        if self.TOUT1_target>=self.min_TZ:        
+            MSE1_scaled = MSE1/(self.TOUT1_target)**2 # scale by target temp  
+        else:
+            MSE1_scaled = MSE1 # do no apply scaling
+                                 
         done = ((MSE1_scaled <= self.MSE_thresh1) )
         done = bool(done)
-
-        TOUTZ2 = 0              
-
+                     
         self.state = np.array([TOUTZ1, TOUTZ2, PUE])
         if cfg['log_output']==True:
             if cfg['print_output_single']==True:
@@ -149,7 +150,7 @@ class AllVar(gym.Env):
         low = np.array([self.min_TZ, self.min_TZ,1])
         high = np.array([self.max_TZ, self.max_TZ,2])
         if cfg['random_output']==True:
-            self.TOUT1_target = self.np_random.uniform(-np.pi/2,np.pi/2)
+            self.TOUT1_target = self.np_random.uniform(self.min_TZ,self.max_TZ)
         else:
             self.TOUT1_target= (cfg['TOUT1_target'])
         self.state = self.np_random.uniform(low=low, high=high)
