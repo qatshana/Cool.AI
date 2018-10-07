@@ -27,9 +27,10 @@ In this project, I present an end-to-end process to design, train and deploy dee
 
 pip install -r requirement.txt
 
-2) copy the following custom OpenAI Gym env to your newly created gym env (myNewEnv in this example)
+2) copy the following custom OpenAI Gym env to your newly created gym env (myNewEnv in this example):
 
 cp python/envs/__init__.py ~/anaconda3/envs/myNewEnv/lib/python3.6/site-packages/gym/envs
+
 cp -R python/envs/ControlRL/ ~/anaconda3/envs/myNewEnv/lib/python3.6/site-packages/gym/envs
 
 
