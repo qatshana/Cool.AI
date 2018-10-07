@@ -53,9 +53,11 @@ Currently, number of samples for training data is set at 30,000. This parameter 
 DDPG system weights are saved in results/weights. User can run two types of tests: Linear and DDPG
 
 1) Linear test:
+
 python python/main_MVP.py
 
 2) DDP test:
+
 python python/main_DDPG.py
 
 ## Performance & Results
@@ -63,7 +65,4 @@ python python/main_DDPG.py
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/ddpg_overshoot.png)
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/linear_fluctuate_1.png)
 
-## Packaging
-Install as a single package
 
-pip install setup.py
