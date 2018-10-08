@@ -9,7 +9,10 @@ from rl.agents import DDPGAgent
 from rl.memory import SequentialMemory
 from rl.random import OrnsteinUhlenbeckProcess
 
+
+# Import a few other funcs for the main script
 import argparse, os, yaml
+
 
 def build_actor_model(num_action, observation_shape):
     action_input = Input(shape=(1,)+observation_shape)
@@ -40,7 +43,6 @@ def build_critic_model(num_action, observation_shape):
 def build_agent(num_action, observation_shape):
     actor=build_actor_model(num_action, observation_shape)
     critic, critic_action_input = build_critic_model(num_action, observation_shape)
-    #print(critic.summary())
     memory = SequentialMemory(limit=100000, window_length=1)
     random_process = OrnsteinUhlenbeckProcess(size=num_action, theta=.15, mu=0., sigma=.3)
     agent = DDPGAgent(nb_actions=num_action, actor=actor, critic=critic, critic_action_input=critic_action_input,
@@ -54,7 +56,7 @@ def train(env,ENV_NAME,training_steps):
 	agent.compile(Adam(lr=.001, clipnorm=1.), metrics=['mae'])
 	agent.fit(env, nb_steps=training_steps, visualize=False, verbose=1, nb_max_episode_steps=200)
 	agent.save_weights('results/weights/ddpg_{}_weights.h5f'.format(ENV_NAME), overwrite=False)
-	agent.test(env, nb_episodes=1, visualize=False, nb_max_episode_steps=500)
+	agent.test(env, nb_episodes=1, visualize=False, nb_max_episode_steps=200)
 
 def test(env,ENV_NAME,num_episodes):
 	nb_actions = env.action_space.shape[0]
@@ -64,24 +66,25 @@ def test(env,ENV_NAME,num_episodes):
 	agent.test(env, nb_episodes=num_episodes, visualize=False, nb_max_episode_steps=200)
 
 if __name__ == "__main__":
-    ENV_NAME = 'AllVar-v0'
-    env = gym.make(ENV_NAME)
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-rRL','--run_RL', dest = 'run_RL', type = bool,
+	ENV_NAME = 'AllVar-v0'	
+	env = gym.make(ENV_NAME)
+
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-rRL','--run_RL', dest = 'run_RL', type = bool,
                         default = False, help = 'True to run RL model')
-    parser.add_argument('-tRL','--test_RL', dest = 'test_RL', type = bool,
+	parser.add_argument('-tRL','--test_RL', dest = 'test_RL', type = bool,
                         default = True, help = 'True to plot RL results')
-    parser.add_argument('-cfg','--config', dest = 'config_dir', type = str,
+	parser.add_argument('-cfg','--config', dest = 'config_dir', type = str,
                         default = 'config/config.yml', help = 'where the config file is located')
-    args = parser.parse_args()
-    with open(args.config_dir, 'r') as ymlfile:
-        cfg = yaml.load(ymlfile)
-    if args.run_RL == True:
-        training_steps=cfg['training_steps']
-        train(env,ENV_NAME,training_steps)
-    if args.test_RL == True:
-        num_episodes=cfg['test_episodes']
-        test(env,ENV_NAME,num_episodes)
+	args = parser.parse_args()
+	with open(args.config_dir, 'r') as ymlfile:
+		cfg = yaml.load(ymlfile)
+	if args.run_RL == True:
+		training_steps=cfg['training_steps']
+		train(env,ENV_NAME,training_steps)
+	if args.test_RL == True:
+		num_episodes=cfg['test_episodes']
+		test(env,ENV_NAME,num_episodes)
         
 
 

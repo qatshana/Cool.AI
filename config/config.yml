@@ -1,17 +1,23 @@
-#paths:
-repo_path: HVAC_Control_DRL/
-#data
+
+#data file path
 data_file_path: data/1ZoneDataCenterHVAC.csv
 result_path: results/
-#both of the below are in the results folder
-pickle_path_result: results/pickles/
 
+pickle_path_result: results/pickles/
 data_result_path: data/figures/
 labels_path: video_labels/
-ray_results_path: ray_results/RocketRL/
+
 
 random_output: False
-print_output: True
+
+# simulation data control paramters
+log_output: True  # activate logging results. Disable to speed up training process 
+print_output_single: False # print out every single measurement even if not done  
+print_output_all: False   # print out all output (only when episode is done)    
+save_output: False  # save individual measurements to output file
+output_file: results/output/outputTemp.txt # output file for chanes in output temp for all episodes (save only )
+
+
 TOUT1_target: 22   # Temp target for Zone 1
 
 #Model variables
@@ -25,8 +31,8 @@ model_result_path: model/figures/
 
 
 # DDPG settings
-training_steps: 100000
-test_episodes: 5
+training_steps: 30000
+test_episodes: 1
 
 
 # Regression variables: 
@@ -49,14 +55,8 @@ scale_var: 10.0 # scales all the normalized input/output values
 
 # The fraction within range of the target within which we say the agent has reached the goal.
 
-thresh1: .005 #within 4% of the target
-thresh2: .005
-thresh3: .005
+thresh1: .003 # MSE threshold, +/- .5 deg at 22 C
 
-
-# Reward upon reaching the goal
-# This is multiplied by scale_var
-reward: 1000
 
 # Scaling variable for the MSE:
 MSE_scale: 10 #multiply the MSE by this to get negative reward
@@ -64,7 +64,7 @@ MSE_scale: 10 #multiply the MSE by this to get negative reward
 # Action range: can go up or down this % of the range
 action_range: 2
 max_in_change: 2 # maximum input change
-rate_change: .05
+rate_change: -1.0 # MVP model
 max_PUE: 3
 min_PUE: 1
 max_TZ: 35
@@ -80,7 +80,7 @@ max_ITU_scaled: 1.5
 # the deterministic regression output to more closely mimic the simulation space
 # Noise is a fraction of the threshold for accuracy: a fraction of thresh1
 noise: .05
-
+ 
 
 # Experiment variables:
 
@@ -111,8 +111,6 @@ zvar: 0
 
 fs: 14 #fontsize for x & y labels
 
-#Data variables
-
 
 #data management variables: 
 
@@ -123,30 +121,17 @@ change_scale:
 
 #naming (5 input file)
 
-#in_var:
+in_var:
   - TDXZ1
   - TDECZ1
   - TIECZ1
   - TOUT
   - ITUZ1
 
-# 
-#naming (6 input file)
-in_var:
-#  - TDXZ1
-#  - TDECZ1
-#  - TIECZ1
-#  - TDXZ2
-#  - TDECZ2
-#  - TIECZ1
-#  - TOUT
-#  - ITUZ1
-#  - ITUZ2 
 
 out_var:
   - PUE
   - TZ1
-#  - TZ2
 
 all_var:
   - Date/Time
@@ -164,28 +149,15 @@ all_var:
   - TIECZ2
 
 
-#corresponding names, for figure labeling: (4 input parameter)
+#corresponding names, for figure labeling: (5 input parameter)
 
-#in_var_name:
+in_var_name:
   - TDXZ1
   - TDECZ1
   - TIECZ1
   - TOUT
   - ITUZ1
 
-#corresponding names, for figure labeling: (4 input parameter)
-in_var_name:
-#  - TDXZ1
-#  - TDECZ1
-#  - TIECZ1
-#  - TDXZ2
-#  - TDECZ2
-#  - TIECZ2
-#  - TOUT
-#  - ITUZ1
-#  - ITUZ2
-
 out_var_name:
   - PUE
   - TZ1
-#  - TZ2
