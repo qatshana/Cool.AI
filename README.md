@@ -8,14 +8,14 @@
 
 
 Buildings consume 30% of total energy worldwide. 40% of this enery is consumed by cooling 
-and heating systems.Facility managers use Energy Management Systems (EMS) to control energy cost 
+and heating systems. 
 
 There is a trade-off between energy consumption and comfort inside buildings (Temperature). 
 
-Existing systems use approximate models with static parameters. These systems exhibit a suboptimal performance (i.e optimum energy does not often imply optimum emperature and vice versa) These systems also fail to account for changes in environment (occupancy and load)
+Existing systems use approximate models with static parameters. These systems exhibit a suboptimal performance (i.e optimum energy does not often imply optimum emperature and vice versa). These systems also fail to account for changes in environment (occupancy and load)
 
 
-Our approach is to use deep reinforcement learning to control cooling system. This approach does not assume any specific model for the system. Cooling control policy is learned and derived from data. An Agent, via trial-and-error, can make optimal actions even for very complex environments. This system can adapt to changes in environment (inside and outside the facility's/building. Please find below a link to the full presentation for this project (https://docs.google.com/presentation/d/1yqvlOii1ajwODI5cSZdmXYTSz7KpY64holnhCF_5GHo/edit?usp=sharing)
+Our approach is to use deep reinforcement learning to control cooling system. This approach does not assume any specific model for the system. Cooling control policy is learned and derived from data. An Agent, via trial-and-error, can make optimal actions even for very complex environments. This system can adapt to changes in environment (inside and outside the facility's/building. Please find below a link to the full presentation for this project: (https://docs.google.com/presentation/d/1yqvlOii1ajwODI5cSZdmXYTSz7KpY64holnhCF_5GHo/edit?usp=sharing)
 
 In this project, I present an end-to-end process to design, train and deploy deep reinforcement learning system 
 
