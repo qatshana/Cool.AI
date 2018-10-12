@@ -85,4 +85,10 @@ Distribution graphs below show the distribution for steps needed to coverage for
 
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/distribution.png)
 
+## Next Steps
+
+1. Compare system performance with existing nonlinear models (thermo-mechanical models)
+2. Test system using more sophisticated building structure (multi-zones with multi-cooling systems)
+3. Compare DDPG performance with other deep learning solutions such as Proximal Policy Optimization (PPO)
+
 
