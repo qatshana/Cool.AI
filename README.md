@@ -71,16 +71,17 @@ python python/main_DDPG.py
 ```
 
 ## Performance & Results
-Convergence (DDP Model): 100% of samples 
- Average temp convergence rate: 9.9 steps 
+
+Table below depicts the performance of two models: Linear model and DDPG model. DDPG converged for all samples (10,000 samples) with an average convergence rate at 9.9 steps whereas Linear model failed to converge in 56% of cases with an average convergence rate of 115 steps 
+
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/results_table.png)
 
-The charts below depicts the typical performance for a Linear model vs. DDPG model. As shown in the graph, DDPG system sometimes overshoot but always converge to target. However, Linear system fluctuate around target temp and fails to coverage - error is function of step size used. In the case below, target temprature was set to 22 C and Linear system output temprature fluctuates between 20 and 24 C
+The charts below depict the typical performance for a Linear model vs. DDPG model. As shown in the graph, DDPG system sometimes overshoot but always converge to target. However, Linear system fluctuate around target temp and fails to coverage - error is function of step size used. In the case below, target temperature was set to 22 C and Linear system output temperature fluctuates between 20 and 24 C
 
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/ddpg_overshoot.png)
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/linear_fluctuate_1.png)
 
-Distribution graphs below show the distribution for steps needed to converage for two systems (Linear vs. DDPG) for 10,000 samples. DDPG system converged for all samples with a maximum number of convergence steps at 20 with mean at 9.9 steps and standard deviation at 3.9. Linear system performance was poor as the system failed to coverage in 56% of cases 
+Distribution graphs below show the distribution for steps needed to coverage for two systems (Linear vs. DDPG) for 10,000 samples. DDPG system converged for all samples with a maximum number of convergence steps at 20 with mean at 9.9 steps and standard deviation at 3.9. Linear system performance was poor as the system failed to coverage in 56% of cases
 
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/distribution.png)
 
