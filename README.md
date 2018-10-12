@@ -47,7 +47,10 @@ I used EnergyPlus to generate the data for a single zone data center in San Fran
 
 Training can be performed on new data set by executing the following command
 
+'''
 python python/main_DDPG -rRL True
+
+'''
 
 Currently, number of samples for training data is set at 30,000. This parameter is training_steps and is set in config/config.yml 
 
@@ -57,11 +60,15 @@ DDPG system weights are saved in results/weights. User can run two types of test
 
 1) Linear test:
 
+'''
 python python/main_MVP.py
+'''
 
 2) DDP test:
 
+'''
 python python/main_DDPG.py
+'''
 
 ## Performance & Results
 
