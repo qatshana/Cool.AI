@@ -25,17 +25,17 @@ In this project, I present an end-to-end process to design, train and deploy dee
 
 1) create env file and install requirement.txt as below. The file contains the python package dependencies for this project. Installation can be performed via
 
-***
+```
 pip install -r requirement.txt
-***
+```
 
 2) copy the following custom OpenAI Gym env to your newly created gym env (myNewEnv in this example):
 
-***
+```
 cp python/envs/__init__.py ~/anaconda3/envs/myNewEnv/lib/python3.6/site-packages/gym/envs
 
 cp -R python/envs/ControlRL/ ~/anaconda3/envs/myNewEnv/lib/python3.6/site-packages/gym/envs
-***
+```
 
 ## Input Data
 I used EnergyPlus to generate the data for a single zone data center in San Francisco with one cooling system and 3 setpoint for control. Below are the charts for distribution of outside temp and data center server load
@@ -47,10 +47,10 @@ I used EnergyPlus to generate the data for a single zone data center in San Fran
 
 Training can be performed on new data set by executing the following command
 
-'''
+```
 python python/main_DDPG -rRL True
 
-'''
+```
 
 Currently, number of samples for training data is set at 30,000. This parameter is training_steps and is set in config/config.yml 
 
@@ -60,15 +60,15 @@ DDPG system weights are saved in results/weights. User can run two types of test
 
 1) Linear test:
 
-'''
+```
 python python/main_MVP.py
-'''
+```
 
 2) DDP test:
 
-'''
+```
 python python/main_DDPG.py
-'''
+```
 
 ## Performance & Results
 
