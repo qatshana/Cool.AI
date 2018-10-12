@@ -81,4 +81,4 @@ Distribution graphs below show the distribution for steps needed to converage fo
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/DDPG_distribution.png)
 
 
-<img src="https://github.com/qatshana/Cool.AI/blob/master/images/linear_distribution.png" width="400">
+<img src="https://github.com/qatshana/Cool.AI/blob/master/images/linear_distribution.png" width="350">
