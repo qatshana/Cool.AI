@@ -79,6 +79,6 @@ The charts below depicts the typical performance for a Linear model vs. DDPG mod
 Distribution graphs below show the distribution for steps needed to converage for two systems (Linear vs. DDPG) for 10,000 samples. DDPG system converged for all samples wiht a maximum number of convergence steps at 20 with mean at 9.9 steps and standard deviation at 3.9. Linear system performance was poor as the system failed to coverage in 56% of cases 
 
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/DDPG_distribution.png)
-![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/linear_distribution.png =100x20)
 
-<img src="https://github.com/qatshana/Cool.AI/blob/master/images/linear_distribution.png" width="500">
+
+<img src="https://github.com/qatshana/Cool.AI/blob/master/images/linear_distribution.png" width="400">
