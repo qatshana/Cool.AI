@@ -71,6 +71,10 @@ python python/main_DDPG.py
 ```
 
 ## Performance & Results
+Convergence (DDP Model): 100% of samples 
+ Average temp convergence rate: 9.9 steps 
+![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/results_table.png)
+
 The charts below depicts the typical performance for a Linear model vs. DDPG model. As shown in the graph, DDPG system sometimes overshoot but always converge to target. However, Linear system fluctuate around target temp and fails to coverage - error is function of step size used. In the case below, target temprature was set to 22 C and Linear system output temprature fluctuates between 20 and 24 C
 
 ![alt text](https://github.com/qatshana/Cool.AI/blob/master/images/ddpg_overshoot.png)
