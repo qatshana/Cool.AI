@@ -3,7 +3,8 @@ Created on Spet 24, 2018
 Code imports simulated data, performs data cleaning/imputation and uses polynomial regression 
 to create interpreter model (to be used in custom Open Gym env) 
 
-@author: Alex Qatshan)
+@author: Alex Qatshan
+
 """
 
 import pandas as pd
@@ -31,25 +32,10 @@ def data_process(cfg, plot_data,run_regression,save_regression):
     data_path = os.path.join(cfg['data_file_path'])
     df = load_data(data_path)
     df = clean_data(cfg,df)
-    if run_regression ==True:
+    if run_regression == True:
         reg_runner(cfg,df,save_regression)
  
         
-def plot_data():
-    """
-    This function plots sub-sample of teh data for Zone1
-    """
-    ts=5000
-    interval=100
-    te=ts+interval
-    plt.subplot(221)
-    plt.plot(df['TDXZ1'][ts:te])
-    plt.subplot(222)
-    plt.plot(df['TZ1'][ts:te])
-    plt.subplot(223)
-    plt.plot(df['TDECZ1'][ts:te])
-    plt.subplot(224)
-    plt.plot(df['TIECZ1'][ts:te])
 
 def load_data(data_path):
     """
@@ -87,13 +73,30 @@ def graph(formula, m,c, x_range):
     """
     x = np.array(x_range)
     y = formula(x,m,c)  # <- note now we're calling the function 'formula' with x
-    plt.plot(x, y, c='red')
+    plt.plot(x, y, c = 'red')
 
 def my_formula(x,m,c):
     """
     This function is the formula for the graph function
     """
     return m*x +c
+
+def plot_data():
+    """
+    This function plots sub-sample of the data for Zone1
+    """
+    ts = 5000
+    interval = 100
+    te = ts+interval
+    plt.subplot(221)
+    plt.plot(df['TDXZ1'][ts:te])
+    plt.subplot(222)
+    plt.plot(df['TZ1'][ts:te])
+    plt.subplot(223)
+    plt.plot(df['TDECZ1'][ts:te])
+    plt.subplot(224)
+    plt.plot(df['TIECZ1'][ts:te])
+
 
 def save_plot(cfg,fig,title):
     """ 
@@ -122,13 +125,13 @@ def plot_3dvar(cfg,df):
 
 def reg_runner(cfg,df,save_regression):
     """
-    This function runs a polynomial regression on 9 input variables to create
+    This function runs a polynomial regression on 5 input variables to create
     a model of the outputs. The resulting polynomial function is saved in a 
     pickle format, which is accessed by the RL environment as the interpreter.
 
     """
 
-    df_inputs=df[['TDXZ1','TDECZ1','TIECZ1','TOUT','ITUZ1']]
+    df_inputs = df[['TDXZ1','TDECZ1','TIECZ1','TOUT','ITUZ1']]
 
     for var in cfg['out_var']:
         #Split into train and test set
