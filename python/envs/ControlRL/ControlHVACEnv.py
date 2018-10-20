@@ -28,14 +28,14 @@ class AllVar(gym.Env):
     def __init__(self):       
         self.max_in_change=cfg['max_in_change']  
         self.viewer = None         
-        self.max_PUE=cfg['max_PUE']
-        self.min_PUE=cfg['min_PUE']
-        self.max_TZ=cfg['max_TZ']
-        self.min_TZ=cfg['min_TZ']
-        self.min_Tin=cfg['min_Tin']
-        self.max_Tin=cfg['max_Tin']
-        self.min_ITU_scaled=cfg['min_ITU_scaled']
-        self.max_ITU_scaled=cfg['max_ITU_scaled']
+        self.max_PUE = cfg['max_PUE']
+        self.min_PUE = cfg['min_PUE']
+        self.max_TZ = cfg['max_TZ']
+        self.min_TZ = cfg['min_TZ']
+        self.min_Tin = cfg['min_Tin']
+        self.max_Tin = cfg['max_Tin']
+        self.min_ITU_scaled = cfg['min_ITU_scaled']
+        self.max_ITU_scaled = cfg['max_ITU_scaled']
         self.label_path = cfg['labels_path']
         self.pick_path = cfg['pickle_path_result']     
         self.num_ins = no_inputs  # defines number of inputs
@@ -56,8 +56,8 @@ class AllVar(gym.Env):
         self.action_space = spaces.Box(-self.action_range, self.action_range, shape=(self.num_ins,), dtype=np.float32) 
 
         # initialize logging paramteres
-        self.episodes=0
-        self.data=''
+        self.episodes = 0
+        self.data = ''
         self.seed()
 
     def get_funcs(self,var):
@@ -67,7 +67,7 @@ class AllVar(gym.Env):
         fname = (var+".p")         
         pickle_path = os.path.join(self.pick_path,fname)
         [coef,powers,intercept,mins,maxes] = pickle.load(open(pickle_path,'rb'))
-        # The 3 function variables you need to-recreate this model & the min & max to set this in the environment.
+        # The function variables you need to-recreate this model & the min & max to set this in the environment.
         out = {'coef': coef, 'powers':powers,'intercept':intercept}
         return out, mins, maxes
 
@@ -121,18 +121,18 @@ class AllVar(gym.Env):
         done = bool(done)
                      
         self.state = np.array([TOUTZ1, TOUTZ2, PUE])
-        if cfg['log_output']==True:
-            if cfg['print_output_single']==True:
+        if cfg['log_output'] == True:
+            if cfg['print_output_single'] == True:
                 print ("  ",TOUTZ1,self.TOUT1_target)
             self.TOUT_data.append(TOUTZ1)
             self.Step_data.append(self.steps)
-        if done==True:
-            txt=str(self.TOUT_data)+","
+        if done == True:
+            txt = str(self.TOUT_data)+","
             self.data+=txt
-            if cfg['print_output_all']==True:
+            if cfg['print_output_all'] == True:
                 print(self.data)
-            if cfg['save_output']==True:
-                output_file=cfg['output_file']
+            if cfg['save_output'] == True:
+                output_file = cfg['output_file']
                 with open(output_file,'a') as file:
                     file.write(self.data) 
                             
@@ -140,19 +140,19 @@ class AllVar(gym.Env):
 
     def reset(self):
         # reset logging parameters
-        self.TOUT_data=[]
-        self.Step_data=[]
-        self.episodes+=1
+        self.TOUT_data = []
+        self.Step_data = []
+        self.episodes += 1
         self.steps = 0
 
         # reset input and output paramaters
         self.ins = random.uniform(self.min_Tin*np.ones([1,no_inputs]),self.max_Tin*np.ones([1,no_inputs]))
         low = np.array([self.min_TZ, self.min_TZ,1])
         high = np.array([self.max_TZ, self.max_TZ,2])
-        if cfg['random_output']==True:
+        if cfg['random_output'] == True:
             self.TOUT1_target = self.np_random.uniform(self.min_TZ,self.max_TZ)
         else:
-            self.TOUT1_target= (cfg['TOUT1_target'])
+            self.TOUT1_target = (cfg['TOUT1_target'])
         self.state = self.np_random.uniform(low=low, high=high)
         self.last_u = None
         return self._get_obs()

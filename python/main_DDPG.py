@@ -41,7 +41,7 @@ def build_critic_model(num_action, observation_shape):
     return (critic, action_input)
 
 def build_agent(num_action, observation_shape):
-    actor=build_actor_model(num_action, observation_shape)
+    actor = build_actor_model(num_action, observation_shape)
     critic, critic_action_input = build_critic_model(num_action, observation_shape)
     memory = SequentialMemory(limit=100000, window_length=1)
     random_process = OrnsteinUhlenbeckProcess(size=num_action, theta=.15, mu=0., sigma=.3)
@@ -83,7 +83,7 @@ if __name__ == "__main__":
 		training_steps=cfg['training_steps']
 		train(env,ENV_NAME,training_steps)
 	if args.test_RL == True:
-		num_episodes=cfg['test_episodes']
+		num_episodes = cfg['test_episodes']
 		test(env,ENV_NAME,num_episodes)
         
 

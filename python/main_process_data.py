@@ -38,5 +38,5 @@ if __name__ == "__main__":
 
     # Add the current working path to the config var.
     cfg['CWD_PATH'] = CWD_PATH
-    if (args.plot_data==True) | (args.run_regression == True):
+    if (args.plot_data == True) | (args.run_regression == True):
         HVACData.data_process(cfg,args.plot_data,args.run_regression,args.save_regression)
